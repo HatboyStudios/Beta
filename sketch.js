@@ -87,10 +87,9 @@ if(keyDown("e")){
 if(boss.isTouching(pelletGroup)){
     bossHealth = bossHealth - 100;
     pelletGroup.collide(boss);
-}
-if(pelletGroup.x >= 1200 || boss.isTouching(pelletGroup)){
     pelletGroup.destroyEach();
 }
+
 }
 
 function boss2Change(){
