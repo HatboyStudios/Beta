@@ -1,3 +1,9 @@
+var bossMode1=true;
+var bossMode2=false;
+var bossMode3=false;
+var bossMode4=false;
+var bossMode5=false;
+
 var ground;
 var pellet, pelletGroup;
 var player, boss;
@@ -5,11 +11,7 @@ var bossRun1;
 var bossHealth;
 var boss1,boss2,boss3,boss4,boss5;
 
-var bossMode1=true;
-var bossMode2=false;
-var bossMode3=false;
-var bossMode4=false;
-var bossMode5=false;
+
 
 function preload(){
 
@@ -22,7 +24,7 @@ player = createSprite(200,400,50,50);
 player.shapeColor=("red");
 
 boss = createSprite(1000,400,100,100);
-boss.shapeColor=("blue");
+
 
 ground = createSprite(200,500,2000,20);
 ground.shapeColor=("purple")
@@ -34,15 +36,53 @@ bossHealth = 100;
 
 function draw(){ 
 background("gray");
+fill ("red")
+text("Health: "+ bossHealth, 500,50);
 if(keyDown("space")&& player.y >= 450) {
     player.velocityY = -12;
 }
-if(bossMode1=true && bossHealth === 0){
-   boss2Change();
+if(bossMode1===true && bossHealth === 0){
+    
+    bossHealth = bossHealth + 150;
+   bossMode1=false;
+   bossMode2=true;
+   bossMode3=false;
+   bossMode4=false;
+   bossMode5=false;
 }
-if(bossMode2=true && bossHealth === 0){
-    boss3Change();
+if(bossMode2===true && bossHealth === 0){
+    
+    bossHealth = bossHealth + 200;
+    bossMode1=false;
+    bossMode2=false;
+    bossMode3=true;
+    bossMode4=false;
+    bossMode5=false
  }
+ if(bossMode3===true && bossHealth === 0){
+     bossHealth = bossHealth + 250;
+    bossMode1=false;
+    bossMode2=false;
+    bossMode3=false;
+    bossMode4=true;
+    bossMode5=false;
+ }
+ if(bossMode4===true && bossHealth === 0){
+    bossHealth = bossHealth + 400;
+   bossMode1=false;
+   bossMode2=false;
+   bossMode3=false;
+   bossMode4=false;
+   bossMode5=true;
+}
+if(bossMode5===true && bossHealth === 0){
+    bossHealth = bossHealth + 100;
+   bossMode1=true;
+   bossMode2=false;
+   bossMode3=false;
+   bossMode4=false;
+   bossMode5=false;
+}
 player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
 
@@ -53,7 +93,7 @@ boss.collide(ground);
 
 spawnPellets();
 playerControls();
-
+bossMovement();
 
 
 drawSprites();
@@ -85,23 +125,31 @@ if(keyDown("e")){
    
 }
 if(boss.isTouching(pelletGroup)){
-    bossHealth = bossHealth - 100;
+    bossHealth = bossHealth - 5;
     pelletGroup.collide(boss);
     pelletGroup.destroyEach();
 }
 
 }
 
-function boss2Change(){
-    boss.shapeColor=("yellow");
-    bossHealth = 150;
-    bossMode1=false
-    bossMode2=true
-}
+function bossMovement(){
+    if (bossMode1===true){
+        boss.shapeColor=("blue");
+    }
 
-function boss3Change(){
-    boss.shapeColor=("red");
-    bossHealth = 200;
-    bossMode2=false
-    bossMode3=true
+    if (bossMode2===true){
+        boss.shapeColor=("yellow");
+    }
+
+    if(bossMode3===true){
+        boss.shapeColor=("black");
+    }
+    
+    if(bossMode4===true){
+        boss.shapeColor=("purple");
+    } 
+
+    if(bossMode5===true){
+        boss.shapeColor=("red");
+    }
 }
