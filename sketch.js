@@ -1,3 +1,5 @@
+var bossRun1 = true;
+
 var bossMode1=true;
 var bossMode2=false;
 var bossMode3=false;
@@ -7,7 +9,7 @@ var bossMode5=false;
 var ground;
 var pellet, pelletGroup;
 var player, boss;
-var bossRun1;
+
 var bossHealth;
 var boss1,boss2,boss3,boss4,boss5;
 
@@ -93,7 +95,7 @@ boss.collide(ground);
 
 spawnPellets();
 playerControls();
-bossMovement();
+Bossrun();
 
 
 drawSprites();
@@ -130,6 +132,12 @@ if(boss.isTouching(pelletGroup)){
     pelletGroup.destroyEach();
 }
 
+}
+
+function Bossrun(){
+    if(bossRun1 === true){
+        bossMovement();
+    }
 }
 
 function bossMovement(){
