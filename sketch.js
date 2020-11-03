@@ -1,4 +1,5 @@
 var bossRun1 = true;
+var bossRun2 = false;
 
 var bossMode1=true;
 var bossMode2=false;
@@ -6,12 +7,18 @@ var bossMode3=false;
 var bossMode4=false;
 var bossMode5=false;
 
+var bossMode6=false;
+var bossMode7=false;
+var bossMode8=false;
+var bossMode9=false;
+var bossMode10=false;
+
 var ground;
 var pellet, pelletGroup;
 var player, boss;
 
 var bossHealth;
-var boss1,boss2,boss3,boss4,boss5;
+//var boss1,boss2,boss3,boss4,boss5;
 
 
 
@@ -78,12 +85,20 @@ if(bossMode2===true && bossHealth === 0){
    bossMode5=true;
 }
 if(bossMode5===true && bossHealth === 0){
-    bossHealth = bossHealth + 100;
-   bossMode1=true;
+    bossRun2=true;
+    bossRun1=false;
+    bossHealth = bossHealth + 450;
+   bossMode1=false;
    bossMode2=false;
    bossMode3=false;
    bossMode4=false;
    bossMode5=false;
+   bossMode6=true;
+}
+if(bossMode6===true && bossHealth === 0){
+    bossHealth = bossHealth + 500;
+    bossMode6=false;
+    bossMode7=true;
 }
 player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
@@ -136,11 +151,15 @@ if(boss.isTouching(pelletGroup)){
 
 function Bossrun(){
     if(bossRun1 === true){
-        bossMovement();
+        bossMovement1();
+    }
+
+    if(bossRun2 === true){
+        bossMovement2();
     }
 }
 
-function bossMovement(){
+function bossMovement1(){
     if (bossMode1===true){
         boss.shapeColor=("blue");
     }
@@ -159,5 +178,27 @@ function bossMovement(){
 
     if(bossMode5===true){
         boss.shapeColor=("red");
+    }
+}
+
+function bossMovement2(){
+    if (bossMode6===true){
+        boss.shapeColor=("white");
+    }
+
+    if (bossMode7===true){
+        boss.shapeColor=("pink");
+    }
+
+    if(bossMode8===true){
+        boss.shapeColor=("magenta");
+    }
+    
+    if(bossMode9===true){
+        boss.shapeColor=("brown");
+    } 
+
+    if(bossMode10===true){
+        boss.shapeColor=("black");
     }
 }
