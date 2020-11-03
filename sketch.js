@@ -50,75 +50,11 @@ text("Health: "+ bossHealth, 500,50);
 if(keyDown("space")&& player.y >= 450) {
     player.velocityY = -12;
 }
-if(bossMode1===true && bossHealth === 0){
-    
-    bossHealth = bossHealth + 150;
-   bossMode1=false;
-   bossMode2=true;
-   bossMode3=false;
-   bossMode4=false;
-   bossMode5=false;
-}
-if(bossMode2===true && bossHealth === 0){
-    
-    bossHealth = bossHealth + 200;
-    bossMode1=false;
-    bossMode2=false;
-    bossMode3=true;
-    bossMode4=false;
-    bossMode5=false
- }
- if(bossMode3===true && bossHealth === 0){
-     bossHealth = bossHealth + 250;
-    bossMode1=false;
-    bossMode2=false;
-    bossMode3=false;
-    bossMode4=true;
-    bossMode5=false;
- }
- if(bossMode4===true && bossHealth === 0){
-    bossHealth = bossHealth + 400;
-   bossMode1=false;
-   bossMode2=false;
-   bossMode3=false;
-   bossMode4=false;
-   bossMode5=true;
-}
-if(bossMode5===true && bossHealth === 0){
-    bossRun2=true;
-    bossRun1=false;
-    bossHealth = bossHealth + 450;
-   bossMode1=false;
-   bossMode2=false;
-   bossMode3=false;
-   bossMode4=false;
-   bossMode5=false;
-   bossMode6=true;
-}
-if(bossMode6===true && bossHealth === 0){
-    bossHealth = bossHealth + 500;
-    bossMode6=false;
-    bossMode7=true;
-}
-if(bossMode7===true && bossHealth === 0){
-    bossHealth = bossHealth + 550;
-    bossMode7=false;
-    bossMode8=true;
-}
-if(bossMode8===true && bossHealth === 0){
-    bossHealth = bossHealth + 600;
-    bossMode8=false;
-    bossMode9=true;
-}
-if(bossMode9===true && bossHealth === 0){
-    bossHealth = bossHealth + 650;
-    bossMode9=false;
-    bossMode10=true;
-}
+
 player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
 
-
+BossHealth0();
 
 player.collide(ground);
 boss.collide(ground);
@@ -215,5 +151,73 @@ function bossMovement2(){
 
     if(bossMode10===true){
         boss.shapeColor=("black");
+    }
+}
+
+function BossHealth0(){
+    if(bossMode1===true && bossHealth === 0){
+    
+        bossHealth = bossHealth + 150;
+       bossMode1=false;
+       bossMode2=true;
+       bossMode3=false;
+       bossMode4=false;
+       bossMode5=false;
+    }
+    if(bossMode2===true && bossHealth === 0){
+        
+        bossHealth = bossHealth + 200;
+        bossMode1=false;
+        bossMode2=false;
+        bossMode3=true;
+        bossMode4=false;
+        bossMode5=false
+     }
+     if(bossMode3===true && bossHealth === 0){
+         bossHealth = bossHealth + 250;
+        bossMode1=false;
+        bossMode2=false;
+        bossMode3=false;
+        bossMode4=true;
+        bossMode5=false;
+     }
+     if(bossMode4===true && bossHealth === 0){
+        bossHealth = bossHealth + 400;
+       bossMode1=false;
+       bossMode2=false;
+       bossMode3=false;
+       bossMode4=false;
+       bossMode5=true;
+    }
+    if(bossMode5===true && bossHealth === 0){
+        bossRun2=true;
+        bossRun1=false;
+        bossHealth = bossHealth + 450;
+       bossMode1=false;
+       bossMode2=false;
+       bossMode3=false;
+       bossMode4=false;
+       bossMode5=false;
+       bossMode6=true;
+    }
+    if(bossMode6===true && bossHealth === 0){
+        bossHealth = bossHealth + 500;
+        bossMode6=false;
+        bossMode7=true;
+    }
+    if(bossMode7===true && bossHealth === 0){
+        bossHealth = bossHealth + 550;
+        bossMode7=false;
+        bossMode8=true;
+    }
+    if(bossMode8===true && bossHealth === 0){
+        bossHealth = bossHealth + 600;
+        bossMode8=false;
+        bossMode9=true;
+    }
+    if(bossMode9===true && bossHealth === 0){
+        bossHealth = bossHealth + 650;
+        bossMode9=false;
+        bossMode10=true;
     }
 }
