@@ -100,6 +100,21 @@ if(bossMode6===true && bossHealth === 0){
     bossMode6=false;
     bossMode7=true;
 }
+if(bossMode7===true && bossHealth === 0){
+    bossHealth = bossHealth + 550;
+    bossMode7=false;
+    bossMode8=true;
+}
+if(bossMode8===true && bossHealth === 0){
+    bossHealth = bossHealth + 600;
+    bossMode8=false;
+    bossMode9=true;
+}
+if(bossMode9===true && bossHealth === 0){
+    bossHealth = bossHealth + 650;
+    bossMode9=false;
+    bossMode10=true;
+}
 player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
 
