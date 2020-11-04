@@ -1,1 +1,1 @@
-Bos Rush
+Boss Rush
