@@ -78,6 +78,7 @@ boss.collide(ground);
 spawnPellets();
 playerControls();
 Bossrun();
+bossDemoMovement();
 }
  
 drawSprites();
@@ -250,4 +251,16 @@ function fight(){
     player.visible = true;
     boss.visible = true;
     ground.visible= true;
+}
+
+function bossDemoMovement(){
+    /*
+this is for custom demo for boss movement
+    */
+   if(keyDown("left_arrow")){
+       boss.x=boss.x-10;
+   }
+   if(keyDown("right_arrow")){
+    boss.x=boss.x+10;
+}
 }
