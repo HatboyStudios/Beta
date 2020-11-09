@@ -25,13 +25,14 @@ var playButton, playButtonImg;
 var bossHealth;
 var boss1,boss2,boss3,boss4,boss5;
 
- 
+ var database, playerPosition, bossPosition, healthBoss;
  
 function preload(){
  playButtonImg = loadImage("Img/playButton.png");
 }
  
 function setup(){
+    database=firebase.database();
 createCanvas(1200,500);
  
 player = createSprite(200,400,50,50);
@@ -49,6 +50,12 @@ playButton.scale = 2.5;
 pelletGroup = createGroup();
  
 bossHealth = 100;
+
+var playerPosition = database.ref('player/position');
+playerPosition.on("value", readPlayerPosition);
+
+//var bossPosition = database.ref('boss/position');
+//bossPosition.on("value", readBossPosition)
 }
  
 function draw(){ 
@@ -63,17 +70,16 @@ if(gameState === FIGHT){
     fight();
 fill ("red")
 text("Health: "+ bossHealth, 500,50);
-if(keyDown("space")&& player.y >= 450) {
-    player.velocityY = -12;
-}
+
  
-player.velocityY = player.velocityY + 0.8;
+//player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
  
 BossHealth0();
  
 player.collide(ground);
 boss.collide(ground);
+player.collide(boss);
  
 spawnPellets();
 playerControls();
@@ -83,15 +89,35 @@ bossDemoMovement();
  
 drawSprites();
 }
- 
+
 function playerControls(){
-    if(keyDown("d")){
+if(keyDown("a")){
+    writePlayerPosition(-5,0);
+}
+if(keyDown("d")){
+    writePlayerPosition(5,0);
+}
+if(keyDown("w")){
+    writePlayerPosition(0,-1);
+}
+}
+ 
+function writePlayerPosition(x,y){
+
+    database.ref('player/position').set({
+        'x':playerPosition.x+x,
+        'y':playerPosition.y+y
+    })
+
+    /*if(keyDown("d")){
         player.x=player.x+10;
     }
     if(keyDown("a")){
         player.x=player.x-10;
     }
- 
+    if(keyDown("space")&& player.y >= 450) {
+        player.velocityY = -12;
+    }*/
  
 }
  
@@ -263,4 +289,10 @@ this is for custom demo for boss movement
    if(keyDown("right_arrow")){
     boss.x=boss.x+10;
 }
+}
+
+function readPlayerPosition(data){
+    playerPosition=data.val();
+    player.x=playerPosition.x;
+    player.y=playerPosition.y;
 }
