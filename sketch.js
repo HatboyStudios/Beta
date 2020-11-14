@@ -72,7 +72,7 @@ fill ("red")
 text("Health: "+ bossHealth, 500,50);
 
  
-//player.velocityY = player.velocityY + 0.8;
+player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
  
 BossHealth0();
@@ -91,15 +91,23 @@ drawSprites();
 }
 
 function playerControls(){
+    writePlayerPosition(0,0);
 if(keyDown("a")){
     writePlayerPosition(-5,0);
+    //player.x=player.x-10;
+  
 }
 if(keyDown("d")){
     writePlayerPosition(5,0);
+    //player.x=player.x+10;
+ 
 }
-if(keyDown("w")){
-    writePlayerPosition(0,-1);
-}
+
+    if(keyDown("space")&& player.y >= 450) {
+        player.velocityY = -12;
+        
+    }
+
 }
  
 function writePlayerPosition(x,y){
