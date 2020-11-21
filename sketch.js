@@ -11,12 +11,15 @@ var bossMode2=false;
 var bossMode3=false;
 var bossMode4=false;
 var bossMode5=false;
- 
 var bossMode6=false;
 var bossMode7=false;
 var bossMode8=false;
 var bossMode9=false;
 var bossMode10=false;
+
+/*var level_1 = true;
+var level_2 = false;
+var level_3 = false;*/
  
 var ground;
 var pellet, pelletGroup;
@@ -24,7 +27,7 @@ var player, boss;
 var playButton, playButtonImg;
 var playerWeapon;
 var weaponCoolDown;
-var playerLevel;
+//var playerLevel;
 var playerHealth, playerSpeed, playerStrength;
  
 var bossHealth;
@@ -57,7 +60,10 @@ playButton.scale = 2.5;
 pelletGroup = createGroup();
  
 bossHealth = 100;
-playerLevel = 1;
+/*playerLevel = 1;
+playerHealth = 100;
+playerSpeed = 100;
+playerStrength = 100;*/
 }
  
 function draw(){ 
@@ -79,8 +85,12 @@ if(gameState === PLAYERMENU){
 if(gameState === FIGHT){
     fight();
 fill ("red")
-text("Health: "+ bossHealth, 500,50);
-text("Level: "+ playerLevel, 500,100);
+text("Boss Health: "+ bossHealth, 500,50);
+/*text("Level: "+ playerLevel, 500,100);
+text("Health: "+ playerHealth, 500,150);
+text("Speed: "+ playerSpeed, 500,200);
+text("Strength: "+ playerStrength, 500,250);*/
+
 if(keyDown("space")&& player.y >= 450) {
     player.velocityY = -12;
 }
@@ -101,6 +111,7 @@ Bossrun();
 bossDemoMovement();
 playerWeaponPosition();
 playerWeaponCommands();
+playerLevelUp();
 }
  
 drawSprites();
@@ -195,7 +206,7 @@ function bossMovement2(){
  
 function BossHealth0(){
     if(bossMode1===true && bossHealth === 0){
-    playerLevel=playerLevel+1;
+    //playerLevel=playerLevel+1;
         bossHealth = bossHealth + 150;
        bossMode1=false;
        bossMode2=true;
@@ -204,7 +215,7 @@ function BossHealth0(){
        bossMode5=false;
     }
     if(bossMode2===true && bossHealth === 0){
-        
+       // playerLevel=playerLevel+1;
         bossHealth = bossHealth + 200;
         bossMode1=false;
         bossMode2=false;
@@ -213,7 +224,7 @@ function BossHealth0(){
         bossMode5=false
      }
      if(bossMode3===true && bossHealth === 0){
-        playerLevel=playerLevel+1;
+        //playerLevel=playerLevel+1;
          bossHealth = bossHealth + 250;
         bossMode1=false;
         bossMode2=false;
@@ -222,6 +233,7 @@ function BossHealth0(){
         bossMode5=false;
      }
      if(bossMode4===true && bossHealth === 0){
+        //playerLevel=playerLevel+1;
         bossHealth = bossHealth + 400;
        bossMode1=false;
        bossMode2=false;
@@ -230,6 +242,7 @@ function BossHealth0(){
        bossMode5=true;
     }
     if(bossMode5===true && bossHealth === 0){
+       // playerLevel=playerLevel+1;
         bossRun2=true;
         bossRun1=false;
         bossHealth = bossHealth + 450;
@@ -241,28 +254,31 @@ function BossHealth0(){
        bossMode6=true;
     }
     if(bossMode6===true && bossHealth === 0){
-        playerLevel=playerLevel+1;
+        //playerLevel=playerLevel+1;
         bossHealth = bossHealth + 500;
         bossMode6=false;
         bossMode7=true;
     }
     if(bossMode7===true && bossHealth === 0){
+        //playerLevel=playerLevel+1;
         bossHealth = bossHealth + 550;
         bossMode7=false;
         bossMode8=true;
     }
     if(bossMode8===true && bossHealth === 0){
+       // playerLevel=playerLevel+1;
         bossHealth = bossHealth + 600;
         bossMode8=false;
         bossMode9=true;
     }
     if(bossMode9===true && bossHealth === 0){
+        //playerLevel=playerLevel+1;
         bossHealth = bossHealth + 650;
         bossMode9=false;
         bossMode10=true;
     }
     if(bossMode10===true && bossHealth === 0){
-        playerLevel=playerLevel+1;
+       // playerLevel=playerLevel+1;
         bossHealth = bossHealth + 100;
         bossMode1=true;
         bossMode10=false;
@@ -317,4 +333,17 @@ function playerWeaponCommands(){
     if(playerWeapon.isTouching(boss) && keyDown("r")){
         bossHealth = bossHealth-10;
     }
+}
+
+function playerLevelUp(){
+/*if (playerLevel === 2){
+    playerHealth = 125;
+    playerSpeed = 125;
+    playerStrength = 125;
+}
+if (playerLevel === 3){
+    playerHealth = 150;
+    playerSpeed = 150;
+    playerStrength = 150;
+}*/
 }
