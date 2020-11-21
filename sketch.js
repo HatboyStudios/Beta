@@ -1,5 +1,6 @@
 var MAINMENU = 1;
 var FIGHT = 0;
+var PLAYERMENU = 2;
 var gameState=MAINMENU;
 
 var bossRun1 = true;
@@ -21,22 +22,28 @@ var ground;
 var pellet, pelletGroup;
 var player, boss;
 var playButton, playButtonImg;
+var playerWeapon;
+var weaponCoolDown;
+var playerLevel;
+var playerHealth, playerSpeed, playerStrength;
  
 var bossHealth;
-var boss1,boss2,boss3,boss4,boss5;
+var boss1Idle,boss1Moving_1,boss1Moving_2;
 
- var database, playerPosition, bossPosition, healthBoss;
+ 
  
 function preload(){
  playButtonImg = loadImage("Img/playButton.png");
 }
  
 function setup(){
-    database=firebase.database();
 createCanvas(1200,500);
  
 player = createSprite(200,400,50,50);
 player.shapeColor=("red");
+
+playerWeapon = createSprite(200,400,20,20);
+playerWeapon.shapeColor=("pink");
  
 boss = createSprite(1000,400,100,100);
  
@@ -50,12 +57,7 @@ playButton.scale = 2.5;
 pelletGroup = createGroup();
  
 bossHealth = 100;
-
-var playerPosition = database.ref('player/position');
-playerPosition.on("value", readPlayerPosition);
-
-//var bossPosition = database.ref('boss/position');
-//bossPosition.on("value", readBossPosition)
+playerLevel = 1;
 }
  
 function draw(){ 
@@ -63,14 +65,25 @@ background("gray");
 if(gameState === MAINMENU){
 mainMenu();
 if(mousePressedOver(playButton)){
-    gameState = FIGHT;
+    gameState = PLAYERMENU
+ }
 }
+
+if(gameState === PLAYERMENU){
+    playerMenu();
+  if(keyDown("p")){
+      gameState = FIGHT;
+  }
 }
+
 if(gameState === FIGHT){
     fight();
 fill ("red")
 text("Health: "+ bossHealth, 500,50);
-
+text("Level: "+ playerLevel, 500,100);
+if(keyDown("space")&& player.y >= 450) {
+    player.velocityY = -12;
+}
  
 player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
@@ -80,52 +93,27 @@ BossHealth0();
 player.collide(ground);
 boss.collide(ground);
 player.collide(boss);
+playerWeapon.collide(boss);
  
 spawnPellets();
 playerControls();
 Bossrun();
 bossDemoMovement();
+playerWeaponPosition();
+playerWeaponCommands();
 }
  
 drawSprites();
 }
-
+ 
 function playerControls(){
-    writePlayerPosition(0,0);
-if(keyDown("a")){
-    writePlayerPosition(-5,0);
-    //player.x=player.x-10;
-  
-}
-if(keyDown("d")){
-    writePlayerPosition(5,0);
-    //player.x=player.x+10;
- 
-}
-
-    if(keyDown("space")&& player.y >= 450) {
-        player.velocityY = -12;
-        
-    }
-
-}
- 
-function writePlayerPosition(x,y){
-
-    database.ref('player/position').set({
-        'x':playerPosition.x+x,
-        'y':playerPosition.y+y
-    })
-
-    /*if(keyDown("d")){
+    if(keyDown("d")){
         player.x=player.x+10;
     }
     if(keyDown("a")){
         player.x=player.x-10;
     }
-    if(keyDown("space")&& player.y >= 450) {
-        player.velocityY = -12;
-    }*/
+ 
  
 }
  
@@ -207,7 +195,7 @@ function bossMovement2(){
  
 function BossHealth0(){
     if(bossMode1===true && bossHealth === 0){
-    
+    playerLevel=playerLevel+1;
         bossHealth = bossHealth + 150;
        bossMode1=false;
        bossMode2=true;
@@ -225,6 +213,7 @@ function BossHealth0(){
         bossMode5=false
      }
      if(bossMode3===true && bossHealth === 0){
+        playerLevel=playerLevel+1;
          bossHealth = bossHealth + 250;
         bossMode1=false;
         bossMode2=false;
@@ -252,6 +241,7 @@ function BossHealth0(){
        bossMode6=true;
     }
     if(bossMode6===true && bossHealth === 0){
+        playerLevel=playerLevel+1;
         bossHealth = bossHealth + 500;
         bossMode6=false;
         bossMode7=true;
@@ -271,6 +261,12 @@ function BossHealth0(){
         bossMode9=false;
         bossMode10=true;
     }
+    if(bossMode10===true && bossHealth === 0){
+        playerLevel=playerLevel+1;
+        bossHealth = bossHealth + 100;
+        bossMode1=true;
+        bossMode10=false;
+    }
 }
 
 function mainMenu(){
@@ -278,6 +274,7 @@ function mainMenu(){
     player.visible = false;
     boss.visible = false;
     ground.visible = false;
+    playerWeapon.visible=false;
 }
 
 function fight(){
@@ -285,6 +282,15 @@ function fight(){
     player.visible = true;
     boss.visible = true;
     ground.visible= true;
+    playerWeapon.visible=true
+}
+
+function playerMenu(){
+    playButton.visible = false;
+    player.visible = false;
+    boss.visible = false;
+    ground.visible = false;
+    playerWeapon.visible=false
 }
 
 function bossDemoMovement(){
@@ -297,10 +303,18 @@ this is for custom demo for boss movement
    if(keyDown("right_arrow")){
     boss.x=boss.x+10;
 }
+if(keyDown("up_arrow")){
+    boss.y=boss.y-10;
+}
 }
 
-function readPlayerPosition(data){
-    playerPosition=data.val();
-    player.x=playerPosition.x;
-    player.y=playerPosition.y;
+function playerWeaponPosition(){
+    playerWeapon.x=player.x+30;
+    playerWeapon.y=player.y;
+}
+
+function playerWeaponCommands(){
+    if(playerWeapon.isTouching(boss) && keyDown("r")){
+        bossHealth = bossHealth-10;
+    }
 }
