@@ -23,6 +23,9 @@ var pellet, pelletGroup;
 var player, boss;
 var playButton, playButtonImg;
 var playerWeapon;
+var weaponCoolDown;
+var playerLevel;
+var playerHealth, playerSpeed, playerStrength;
  
 var bossHealth;
 var boss1Idle,boss1Moving_1,boss1Moving_2;
@@ -54,6 +57,7 @@ playButton.scale = 2.5;
 pelletGroup = createGroup();
  
 bossHealth = 100;
+playerLevel = 1;
 }
  
 function draw(){ 
@@ -76,6 +80,7 @@ if(gameState === FIGHT){
     fight();
 fill ("red")
 text("Health: "+ bossHealth, 500,50);
+text("Level: "+ playerLevel, 500,100);
 if(keyDown("space")&& player.y >= 450) {
     player.velocityY = -12;
 }
@@ -190,7 +195,7 @@ function bossMovement2(){
  
 function BossHealth0(){
     if(bossMode1===true && bossHealth === 0){
-    
+    playerLevel=playerLevel+1;
         bossHealth = bossHealth + 150;
        bossMode1=false;
        bossMode2=true;
@@ -208,6 +213,7 @@ function BossHealth0(){
         bossMode5=false
      }
      if(bossMode3===true && bossHealth === 0){
+        playerLevel=playerLevel+1;
          bossHealth = bossHealth + 250;
         bossMode1=false;
         bossMode2=false;
@@ -235,6 +241,7 @@ function BossHealth0(){
        bossMode6=true;
     }
     if(bossMode6===true && bossHealth === 0){
+        playerLevel=playerLevel+1;
         bossHealth = bossHealth + 500;
         bossMode6=false;
         bossMode7=true;
@@ -253,6 +260,12 @@ function BossHealth0(){
         bossHealth = bossHealth + 650;
         bossMode9=false;
         bossMode10=true;
+    }
+    if(bossMode10===true && bossHealth === 0){
+        playerLevel=playerLevel+1;
+        bossHealth = bossHealth + 100;
+        bossMode1=true;
+        bossMode10=false;
     }
 }
 
