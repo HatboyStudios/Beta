@@ -1,5 +1,6 @@
 var MAINMENU = 1;
 var FIGHT = 0;
+var PLAYERMENU = 2;
 var gameState=MAINMENU;
 
 var bossRun1 = true;
@@ -21,9 +22,10 @@ var ground;
 var pellet, pelletGroup;
 var player, boss;
 var playButton, playButtonImg;
+var playerWeapon;
  
 var bossHealth;
-var boss1,boss2,boss3,boss4,boss5;
+var boss1Idle,boss1Moving_1,boss1Moving_2;
 
  
  
@@ -36,6 +38,9 @@ createCanvas(1200,500);
  
 player = createSprite(200,400,50,50);
 player.shapeColor=("red");
+
+playerWeapon = createSprite(200,400,20,20);
+playerWeapon.shapeColor=("pink");
  
 boss = createSprite(1000,400,100,100);
  
@@ -56,9 +61,17 @@ background("gray");
 if(gameState === MAINMENU){
 mainMenu();
 if(mousePressedOver(playButton)){
-    gameState = FIGHT;
+    gameState = PLAYERMENU
+ }
 }
+
+if(gameState === PLAYERMENU){
+    playerMenu();
+  if(keyDown("p")){
+      gameState = FIGHT;
+  }
 }
+
 if(gameState === FIGHT){
     fight();
 fill ("red")
@@ -74,11 +87,15 @@ BossHealth0();
  
 player.collide(ground);
 boss.collide(ground);
+player.collide(boss);
+playerWeapon.collide(boss);
  
 spawnPellets();
 playerControls();
 Bossrun();
 bossDemoMovement();
+playerWeaponPosition();
+playerWeaponCommands();
 }
  
 drawSprites();
@@ -244,6 +261,7 @@ function mainMenu(){
     player.visible = false;
     boss.visible = false;
     ground.visible = false;
+    playerWeapon.visible=false;
 }
 
 function fight(){
@@ -251,6 +269,15 @@ function fight(){
     player.visible = true;
     boss.visible = true;
     ground.visible= true;
+    playerWeapon.visible=true
+}
+
+function playerMenu(){
+    playButton.visible = false;
+    player.visible = false;
+    boss.visible = false;
+    ground.visible = false;
+    playerWeapon.visible=false
 }
 
 function bossDemoMovement(){
@@ -263,4 +290,18 @@ this is for custom demo for boss movement
    if(keyDown("right_arrow")){
     boss.x=boss.x+10;
 }
+if(keyDown("up_arrow")){
+    boss.y=boss.y-10;
+}
+}
+
+function playerWeaponPosition(){
+    playerWeapon.x=player.x+30;
+    playerWeapon.y=player.y;
+}
+
+function playerWeaponCommands(){
+    if(playerWeapon.isTouching(boss) && keyDown("r")){
+        bossHealth = bossHealth-10;
+    }
 }
