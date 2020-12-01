@@ -106,6 +106,7 @@ BossHealth0();
  
 player.collide(ground);
 boss.collide(ground);
+assistant.collde(ground);
 player.collide(boss);
 playerWeapon.collide(boss);
  
