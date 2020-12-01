@@ -24,6 +24,7 @@ var level_3 = false;*/
 var ground;
 var pellet, pelletGroup;
 var player, boss;
+var assistant;
 var playButton, playButtonImg;
 var playerWeapon;
 var weaponCoolDown;
@@ -49,6 +50,8 @@ playerWeapon = createSprite(200,400,20,20);
 playerWeapon.shapeColor=("pink");
  
 boss = createSprite(1000,400,100,100);
+ 
+ assistant = createSprite(200,400,25,25);
  
 ground = createSprite(200,500,2000,20);
 ground.shapeColor=("purple")
@@ -97,6 +100,7 @@ if(keyDown("space")&& player.y >= 450) {
  
 player.velocityY = player.velocityY + 0.8;
 boss.velocityY = boss.velocityY + 0.8;
+assistant.velocityY = boss.velocityY + 0.8;
  
 BossHealth0();
  
@@ -112,9 +116,15 @@ bossDemoMovement();
 playerWeaponPosition();
 playerWeaponCommands();
 playerLevelUp();
+assistantMod
 }
  
 drawSprites();
+}
+
+fucntion assistantMod(){
+  assistant.x = player.x-5;
+  assistant.y = player.y-5;
 }
  
 function playerControls(){
@@ -291,6 +301,7 @@ function mainMenu(){
     boss.visible = false;
     ground.visible = false;
     playerWeapon.visible=false;
+    assistant.visible=false;
 }
 
 function fight(){
@@ -299,6 +310,7 @@ function fight(){
     boss.visible = true;
     ground.visible= true;
     playerWeapon.visible=true
+    assistant.visible=true;
 }
 
 function playerMenu(){
@@ -307,6 +319,7 @@ function playerMenu(){
     boss.visible = false;
     ground.visible = false;
     playerWeapon.visible=false
+    assistant.visible=false;
 }
 
 function bossDemoMovement(){
