@@ -1,3 +1,7 @@
+/*
+so far this code is the single player version of the project so no multiplayer features have been implemented for right nowa multiplayer version
+might be in the works
+*/
 var MAINMENU = 1;
 var FIGHT = 0;
 var PLAYERMENU = 2;
@@ -32,11 +36,12 @@ var playerHealth, playerSpeed, playerStrength;
  
 var bossHealth;
 var boss1Idle,boss1Moving_1,boss1Moving_2;
-
  
  
 function preload(){
  playButtonImg = loadImage("Img/playButton.png");
+
+boss1Idle = loadImage("Img/Flaming_Hornet.png")
 }
  
 function setup(){
@@ -49,6 +54,8 @@ playerWeapon = createSprite(200,400,20,20);
 playerWeapon.shapeColor=("pink");
  
 boss = createSprite(1000,400,100,100);
+boss.addImage("boss1", boss1Idle);
+boss.scale=(7.0)
  
 ground = createSprite(200,500,2000,20);
 ground.shapeColor=("purple")
@@ -207,6 +214,7 @@ function bossMovement2(){
 function BossHealth0(){
     if(bossMode1===true && bossHealth === 0){
     //playerLevel=playerLevel+1;
+    boss.changeImage("boss1", boss1Idle);
         bossHealth = bossHealth + 150;
        bossMode1=false;
        bossMode2=true;
