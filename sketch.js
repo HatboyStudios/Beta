@@ -1,5 +1,5 @@
 /*
-so far this code is the single player version of the project so no multiplayer features have been implemented for right nowa multiplayer version
+so far this code is the single player version of the project so no multiplayer features have been implemented for right now multiplayer version
 might be in the works
 */
 var MAINMENU = 1;
@@ -36,12 +36,13 @@ var playerHealth, playerSpeed, playerStrength;
  
 var bossHealth;
 var boss1Idle,boss1Moving_1,boss1Moving_2;
+var boss2Idle;
  
  
 function preload(){
  playButtonImg = loadImage("Img/playButton.png");
-
-boss1Idle = loadImage("Img/Flaming_Hornet.png")
+boss1Idle = loadImage("Img/Flaming_Hornet.png");
+boss2Idle = loadImage("Img/Sand_Larva.png");
 }
  
 function setup(){
@@ -55,6 +56,7 @@ playerWeapon.shapeColor=("pink");
  
 boss = createSprite(1000,400,100,100);
 boss.addImage("boss1", boss1Idle);
+boss.addImage("boss2", boss2Idle);
 boss.scale=(7.0)
  
 ground = createSprite(200,500,2000,20);
@@ -214,7 +216,8 @@ function bossMovement2(){
 function BossHealth0(){
     if(bossMode1===true && bossHealth === 0){
     //playerLevel=playerLevel+1;
-    boss.changeImage("boss1", boss1Idle);
+    boss.changeImage("boss2", boss2Idle);
+    boss.scale=(5.0);
         bossHealth = bossHealth + 150;
        bossMode1=false;
        bossMode2=true;
