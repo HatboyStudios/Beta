@@ -7,6 +7,11 @@ var FIGHT = 0;
 var PLAYERMENU = 2;
 var gameState=MAINMENU;
 
+var NULL = 0;
+var PLAYEREDIT = 1;
+var NEWCHARACTER = 2;
+var playerState = NULL
+
 var bossRun1 = true;
 var bossRun2 = false;
  
@@ -38,11 +43,17 @@ var bossHealth;
 var boss1Idle,boss1Moving_1,boss1Moving_2;
 var boss2Idle;
  
+var bg;
+
+var platform, platformGroup;
+
+var playerVisual, editButton, newCharacterButton, playButton2,returnButton;
  
 function preload(){
  playButtonImg = loadImage("Img/playButton.png");
 boss1Idle = loadImage("Img/Flaming_Hornet.png");
 boss2Idle = loadImage("Img/Sand_Larva.png");
+bg = loadImage("Img/bg.png");
 }
  
 function setup(){
@@ -57,8 +68,10 @@ playerWeapon.shapeColor=("pink");
 boss = createSprite(1000,400,100,100);
 boss.addImage("boss1", boss1Idle);
 boss.addImage("boss2", boss2Idle);
-boss.scale=(7.0)
- 
+boss.scale=(5.0)
+boss.debug = true;
+boss.setCollider("rectangle",0,0,this.width,this,height) 
+
 ground = createSprite(200,500,2000,20);
 ground.shapeColor=("purple")
 
@@ -67,16 +80,33 @@ playButton.addImage(playButtonImg);
 playButton.scale = 2.5;
  
 pelletGroup = createGroup();
+platformGroup = createGroup();
  
 bossHealth = 100;
 /*playerLevel = 1;
 playerHealth = 100;
 playerSpeed = 100;
 playerStrength = 100;*/
+
+playerVisual = createSprite(200,300);
+playerVisual.shapeColor=("red");
+
+editButton = createSprite(500,100, 100, 75);
+editButton.shapeColor=("blue");
+
+newCharacterButton = createSprite(500,200, 100, 75);
+newCharacterButton.shapeColor=("yellow");
+
+playButton2 = createSprite(500, 300, 100, 75);
+playButton2.shapeColor=("green");
+
+returnButton = createSprite(500, 400, 100, 75);
+returnButton.shapeColor=("purple");
+
 }
  
 function draw(){ 
-background("gray");
+background(bg);
 if(gameState === MAINMENU){
 mainMenu();
 if(mousePressedOver(playButton)){
@@ -88,6 +118,16 @@ if(gameState === PLAYERMENU){
     playerMenu();
   if(keyDown("p")){
       gameState = FIGHT;
+  }
+
+  if(playerState === NULL){
+    if(mousePressedOver(editButton)){
+      playerState = PLAYEREDIT;
+    }
+  }
+
+  if(playerState === PLAYEREDIT){
+    editButton.shapeColor=("black");
   }
 }
 
@@ -101,11 +141,11 @@ text("Speed: "+ playerSpeed, 500,200);
 text("Strength: "+ playerStrength, 500,250);*/
 
 if(keyDown("space")&& player.y >= 450) {
-    player.velocityY = -12;
+    player.velocityY = -20;
 }
  
 player.velocityY = player.velocityY + 0.8;
-boss.velocityY = boss.velocityY + 0.8;
+
  
 BossHealth0();
  
@@ -113,6 +153,8 @@ player.collide(ground);
 boss.collide(ground);
 player.collide(boss);
 playerWeapon.collide(boss);
+platformGroup.collide(player);
+//platformGroup.bounceOff(player);
  
 spawnPellets();
 playerControls();
@@ -121,6 +163,14 @@ bossDemoMovement();
 playerWeaponPosition();
 playerWeaponCommands();
 playerLevelUp();
+spawnPlatform();
+
+if(player.isTouching(platformGroup)){
+   player.bounceOff(platformGroup)
+}
+
+
+
 }
  
 drawSprites();
@@ -226,6 +276,7 @@ function BossHealth0(){
        bossMode5=false;
     }
     if(bossMode2===true && bossHealth === 0){
+        boss.velocityY = boss.velocityY + 0.8;
        // playerLevel=playerLevel+1;
         bossHealth = bossHealth + 200;
         bossMode1=false;
@@ -302,6 +353,12 @@ function mainMenu(){
     boss.visible = false;
     ground.visible = false;
     playerWeapon.visible=false;
+    //platform.visible=false;
+    editButton.visible = false;
+    returnButton.visible = false;
+    playerVisual.visible = false;
+    newCharacterButton.visible = false;
+    playButton2.visible = false;
 }
 
 function fight(){
@@ -309,7 +366,13 @@ function fight(){
     player.visible = true;
     boss.visible = true;
     ground.visible= true;
-    playerWeapon.visible=true
+    playerWeapon.visible=true;
+    //platform.visible=true;
+    editButton.visible = false;
+    returnButton.visible = false;
+    playButton2.visible = false;
+    newCharacterButton.visible = false;
+    playerVisual.visible = false;
 }
 
 function playerMenu(){
@@ -318,6 +381,12 @@ function playerMenu(){
     boss.visible = false;
     ground.visible = false;
     playerWeapon.visible=false
+    //platform.visible=false;
+    playerVisual.visible = true;
+    editButton.visible = true;
+    returnButton.visible = true;
+    playButton2.visible = true;
+    newCharacterButton.visible = true;
 }
 
 function bossDemoMovement(){
@@ -358,3 +427,18 @@ if (playerLevel === 3){
     playerStrength = 150;
 }*/
 }
+
+function spawnPlatform(){
+    if(World.frameCount%120 === 0){
+    platform = createSprite(1200,350,200,20);
+    platform.shapeColor = ("purple");
+    platform.velocityX=-7;
+    platformGroup.add(platform);
+    platform.depth=player.depth
+    //console.log(player.depth);
+console.log(platform.depth);
+    /* if(gameState === mainMenu || gameState === playerMenu){
+        platformGroup.visible=false;
+     }*/
+     }
+ }
