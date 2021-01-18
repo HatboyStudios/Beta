@@ -68,8 +68,8 @@ playerWeapon.shapeColor=("pink");
 boss = createSprite(1000,400,100,100);
 boss.addImage("boss1", boss1Idle);
 boss.addImage("boss2", boss2Idle);
-boss.scale=(5.0)
-boss.debug = true;
+boss.scale=(3.0)
+//boss.debug = true;
 boss.setCollider("rectangle",0,0,this.width,this,height) 
 
 ground = createSprite(200,500,2000,20);
@@ -166,7 +166,9 @@ playerLevelUp();
 spawnPlatform();
 
 if(player.isTouching(platformGroup)){
-   player.bounceOff(platformGroup)
+   //player.collide(platformGroup)
+   //platformGroup.setVelocityEach(0);
+   bounceOff();
 }
 
 
@@ -226,6 +228,7 @@ function bossMovement1(){
  
     if (bossMode2===true){
         boss.shapeColor=("yellow");
+        boss.velocityY = boss.velocityY + 0.8;
     }
  
     if(bossMode3===true){
@@ -267,7 +270,7 @@ function BossHealth0(){
     if(bossMode1===true && bossHealth === 0){
     //playerLevel=playerLevel+1;
     boss.changeImage("boss2", boss2Idle);
-    boss.scale=(5.0);
+    boss.scale=(2.0);
         bossHealth = bossHealth + 150;
        bossMode1=false;
        bossMode2=true;
@@ -276,7 +279,7 @@ function BossHealth0(){
        bossMode5=false;
     }
     if(bossMode2===true && bossHealth === 0){
-        boss.velocityY = boss.velocityY + 0.8;
+       
        // playerLevel=playerLevel+1;
         bossHealth = bossHealth + 200;
         bossMode1=false;
@@ -402,6 +405,9 @@ this is for custom demo for boss movement
 if(keyDown("up_arrow")){
     boss.y=boss.y-10;
 }
+if(keyDown("down_arrow")){
+    boss.y=boss.y+10;
+}
 }
 
 function playerWeaponPosition(){
@@ -436,9 +442,22 @@ function spawnPlatform(){
     platformGroup.add(platform);
     platform.depth=player.depth
     //console.log(player.depth);
-console.log(platform.depth);
+//console.log(platform.depth);
     /* if(gameState === mainMenu || gameState === playerMenu){
         platformGroup.visible=false;
      }*/
      }
  }
+
+ function bounceOff(){
+    if (platformGroup.x - player.x < player.width/2 + platformGroup.width/2
+        && player.x - platformGroup.x < player.width/2 + platformGroup.width/2) {
+      platformGroup.velocityX = platformGroup.velocityX * (-1);
+      player.velocityX = player.velocityX * (-1);
+    }
+    if (platformGroup.y - player.y < player.height/2 + platformGroup.height/2
+      && player.y - platformGroup.y < player.height/2 + platformGroup.height/2){
+      platformGroup.velocityY = platformGroup.velocityY * (-1);
+      player.velocityY = player.velocityY * (-1);
+    }
+}
