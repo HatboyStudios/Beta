@@ -32,6 +32,7 @@ var level_3 = false;*/
  
 var ground;
 var pellet, pelletGroup;
+var fireball, fireballGroup;
 var player, boss;
 var playButton, playButtonImg;
 var playerWeapon;
@@ -65,14 +66,15 @@ player.shapeColor=("red");
 playerWeapon = createSprite(200,400,20,20);
 playerWeapon.shapeColor=("pink");
  
-boss = createSprite(1000,400,100,100);
+boss = createSprite(1000,480,100,50);
 boss.addImage("boss1", boss1Idle);
 boss.addImage("boss2", boss2Idle);
-boss.scale=(3.0)
+boss.scale=(2.0)
 //boss.debug = true;
 boss.setCollider("rectangle",0,0,this.width,this,height) 
+console.log(boss.y);
 
-ground = createSprite(200,500,2000,20);
+ground = createSprite(600,490,1200,20);
 ground.shapeColor=("purple")
 
 playButton = createSprite(600,250,200,200);
@@ -81,6 +83,7 @@ playButton.scale = 2.5;
  
 pelletGroup = createGroup();
 platformGroup = createGroup();
+fireballGroup = createGroup();
  
 bossHealth = 100;
 /*playerLevel = 1;
@@ -134,6 +137,7 @@ if(gameState === PLAYERMENU){
 if(gameState === FIGHT){
     fight();
 fill ("red")
+textSize(20);
 text("Boss Health: "+ bossHealth, 500,50);
 /*text("Level: "+ playerLevel, 500,100);
 text("Health: "+ playerHealth, 500,150);
@@ -164,6 +168,7 @@ playerWeaponPosition();
 playerWeaponCommands();
 playerLevelUp();
 spawnPlatform();
+spawnfireballs();
 
 if(player.isTouching(platformGroup)){
    //player.collide(platformGroup)
@@ -198,7 +203,7 @@ pellet.shapeColor=("Brown");
 pelletGroup.add(pellet);
  
 if(keyDown("e")){
-    pellet.velocityX=5;
+    pellet.velocityX=10;
    pellet.visible=true;
 }
    
@@ -224,6 +229,9 @@ function Bossrun(){
 function bossMovement1(){
     if (bossMode1===true){
         boss.shapeColor=("blue");
+        if(keyDown("down_arrow")){
+            boss.y=boss.y+10;
+        }
     }
  
     if (bossMode2===true){
@@ -405,9 +413,7 @@ this is for custom demo for boss movement
 if(keyDown("up_arrow")){
     boss.y=boss.y-10;
 }
-if(keyDown("down_arrow")){
-    boss.y=boss.y+10;
-}
+
 }
 
 function playerWeaponPosition(){
@@ -460,4 +466,26 @@ function spawnPlatform(){
       platformGroup.velocityY = platformGroup.velocityY * (-1);
       player.velocityY = player.velocityY * (-1);
     }
+}
+
+function spawnfireballs(){
+    if (frameCount % 60 === 0){
+        fireball = createSprite(boss.x, boss.y,25,25);
+       
+fireball.visible=false;
+fireball.shapeColor=("Brown");
+fireballGroup.add(fireball);
+ 
+if(keyDown("i")){
+    fireball.velocityX=-10;
+   fireball.visible=true;
+}
+   
+}
+/*if(boss.isTouching(pelletGroup)){
+    bossHealth = bossHealth - 5;
+    pelletGroup.collide(boss);
+    pelletGroup.destroyEach();
+}*/
+ 
 }
