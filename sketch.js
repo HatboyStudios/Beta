@@ -32,6 +32,7 @@ var ground;
 var pellet, pelletGroup;
 var fireball, fireballGroup;
 var player, boss;
+var assistant;
 var playButton, playButtonImg;
 var playerWeapon;
 var weaponCoolDown;
@@ -42,18 +43,29 @@ var skillPoints;
 var bossHealth;
 var boss1Idle,boss1Moving_1,boss1Moving_2;
 var boss2Idle;
+var boss3Idle;
  
 var bg;
 
 var platform, platformGroup;
 
 var playerVisual, editButton, newCharacterButton, playButton2,returnButton;
+
+var editImg, newCharacterImg, playImg, returnImg
+
+var species, job, armor, weapon, skillTree, magic, other;
  
 function preload(){
  playButtonImg = loadImage("Img/playButton.png");
 boss1Idle = loadImage("Img/Flaming_Hornet.png");
 boss2Idle = loadImage("Img/Sand_Larva.png");
+boss3Idle = loadImage("Img/Face.png");
 bg = loadImage("Img/bg.png");
+
+editImg = loadImage("Img/Icons/icons1.png");
+newCharacterImg = loadImage("Img/Icons/icons0.png");
+playImg = loadImage("Img/Icons/icons2.png");
+returnImg = loadImage("Img/Icons/icons3.png");
 }
  
 function setup(){
@@ -68,6 +80,7 @@ playerWeapon.shapeColor=("pink");
 boss = createSprite(1000,480,100,50);
 boss.addImage("boss1", boss1Idle);
 boss.addImage("boss2", boss2Idle);
+boss.addImage("boss3", boss3Idle);
 boss.scale=(2.0)
 //boss.debug = true;
 boss.setCollider("rectangle",0,0,this.width,this,height) 
@@ -97,16 +110,25 @@ playerVisual.shapeColor=("red");
 
 editButton = createSprite(500,100, 100, 75);
 editButton.shapeColor=("blue");
+editButton.addImage(editImg);
+editButton.scale = 2
 
 newCharacterButton = createSprite(500,200, 100, 75);
 newCharacterButton.shapeColor=("yellow");
+newCharacterButton.addImage(newCharacterImg);
+newCharacterButton.scale = 2
 
 playButton2 = createSprite(500, 300, 100, 75);
 playButton2.shapeColor=("green");
+playButton2.addImage(playImg);
+playButton2.scale = 2
 
 returnButton = createSprite(500, 400, 100, 75);
 returnButton.shapeColor=("purple");
+returnButton.addImage(returnImg);
+returnButton.scale = 2
 
+assistant = createSprite(200,400,25,25);
 }
  
 function draw(){ 
@@ -157,6 +179,8 @@ if(keyDown("space")&& player.y >= 450) {
  
 player.velocityY = player.velocityY + 0.8;
 
+assistant.velocityY = assistant.velocityY + 0.8;
+
  
 BossHealth0();
  
@@ -165,6 +189,7 @@ boss.collide(ground);
 player.collide(boss);
 playerWeapon.collide(boss);
 platformGroup.collide(player);
+assistant.collide(ground);
 //platformGroup.bounceOff(player);
  
 spawnPellets();
@@ -175,6 +200,7 @@ playerWeaponPosition();
 playerWeaponCommands();
 //playerLevelUp();
 spawnPlatform();
+assistantMod()
 spawnfireballs();
 
 if(player.isTouching(platformGroup)){
@@ -311,7 +337,7 @@ function BossHealth0(){
        bossMode5=false;
     }
     if(bossMode2===true && bossHealth === 0){
-       
+       boss.changeImage("boss3", boss3Idle);
         playerLevel=playerLevel+1;
         bossHealth = bossHealth + 200;
         bossMode1=false;
@@ -394,6 +420,7 @@ function mainMenu(){
     playerVisual.visible = false;
     newCharacterButton.visible = false;
     playButton2.visible = false;
+    assistant.visible=false;
 }
 
 function fight(){
@@ -408,6 +435,7 @@ function fight(){
     playButton2.visible = false;
     newCharacterButton.visible = false;
     playerVisual.visible = false;
+    assistant.visible=true;
 }
 
 function playerMenu(){
@@ -422,6 +450,7 @@ function playerMenu(){
     returnButton.visible = true;
     playButton2.visible = true;
     newCharacterButton.visible = true;
+    assistant.visible=false;
 }
 
 function bossDemoMovement(){
@@ -525,3 +554,8 @@ if(keyDown("i")){
 }*/
  
 }
+
+function assistantMod(){
+    assistant.x = player.x-40;
+    assistant.y = player.y+10;
+  }
