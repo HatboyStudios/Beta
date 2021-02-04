@@ -202,6 +202,7 @@ playerWeaponCommands();
 spawnPlatform();
 assistantMod()
 spawnfireballs();
+Mods();
 
 if(player.isTouching(platformGroup)){
    //player.collide(platformGroup)
@@ -558,4 +559,8 @@ if(keyDown("i")){
 function assistantMod(){
     assistant.x = player.x-40;
     assistant.y = player.y+10;
+  }
+  
+  function Mods(){
+    //Mods can be coded here
   }
