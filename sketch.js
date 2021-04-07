@@ -559,3 +559,7 @@ function assistantMod(){
     assistant.x = player.x-40;
     assistant.y = player.y+10;
   }
+
+function aiEnemies(){
+ 
+}
