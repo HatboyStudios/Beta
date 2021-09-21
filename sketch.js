@@ -135,14 +135,14 @@ function draw(){
 background(bg);
 if(gameState === MAINMENU){
 mainMenu();
-if(mousePressedOver(playButton)){
+if(mousePressedOver(playButton) || keyDown("p")){
     gameState = PLAYERMENU
  }
 }
 
 if(gameState === PLAYERMENU){
     playerMenu();
-  if(mousePressedOver(playButton2)){
+  if(mousePressedOver(playButton2) || keyDown("p")){
       gameState = FIGHT;
   }
 
