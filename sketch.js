@@ -82,7 +82,7 @@ boss.addImage("boss1", boss1Idle);
 boss.addImage("boss2", boss2Idle);
 boss.addImage("boss3", boss3Idle);
 boss.scale=(2.0)
-//boss.debug = true;
+boss.debug = true;
 boss.setCollider("rectangle",0,0,this.width,this,height) 
 console.log(boss.y);
 
